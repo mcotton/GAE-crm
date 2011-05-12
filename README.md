@@ -1,12 +1,16 @@
+
+*Please fork and contribute your own hacks*
+
+
 ## Quick start python template for Google App Engine ##
 
 You'll need to do several things before your first deploy.
 
-*First*: open up app.yaml and replace 'app' with yourn app name
+*First*: open up app.yaml and replace 'app' with your own app name
 
 >  application: app
 
-*Second*: remember to update the version line, trust me, it'll be helpfull when
+*Second*: remember to update the version line, trust me, it'll be helpful when
 you deploy.  Make sure to mention/tag the git log with the deployed version.
 
 >  version: app-1
@@ -16,7 +20,7 @@ reason not to do this.
 Depending on what platform you use, you will need to add these flags when your
 app starts in the development console.
 
->  --datastore_path=/Users/cotton/dev/clean/datastore
+>  --datastore_path=/path/to/datastore
 
 *Fourth*: your models live in usermodels.py
 
@@ -28,6 +32,7 @@ main.py
 >  from google.appengine.dist import use_library  
 >  use_library('django', '0.96')  
 
+*Includes*
+ - jQuery hosted on google's CDN
 
-*Please fork and contribute your own hacks*
 
