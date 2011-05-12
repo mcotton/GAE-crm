@@ -23,10 +23,10 @@ app starts in the development console.
 *Fifth*: if you want to use some other Django template, change these lines in
 main.py
 
->  import os
->  os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
->  from google.appengine.dist import use_library
->  use_library('django', '0.96')
+>  import os  
+>  os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'  
+>  from google.appengine.dist import use_library  
+>  use_library('django', '0.96')  
 
 
 *Please fork and contribute your own hacks*
