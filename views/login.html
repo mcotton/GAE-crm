@@ -1,0 +1,26 @@
+{% extends "index.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block header %}
+
+{% endblock%}
+
+{% block content %}
+&nbsp; 
+        <div class="posts">
+        <h2>Login</h2>
+        <h4>This site is password protected</h4>
+        <form action="/login" method="post">
+            Password:<input type="password" name="password"><br>
+            <input type="submit"><br>
+        </form>
+        </div>
+        <br>
+	
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

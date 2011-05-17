@@ -1,0 +1,68 @@
+h1 {
+	color: #4d4d4d;
+	font-family: "Myriad Pro", Helvetica, Arial, sans-serif;
+	font-size: 48px;
+	font-weight: normal;
+}
+
+h1 a { color: #FFFBDE; text-decoration: none; }
+
+h2 {
+	color: #000000;
+	font-family: "Myriad Pro", Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	
+}
+
+h3 {
+	color: #4d4d4d;
+	font-family: "Myriad Pro", Helvetica, Arial, sans-serif;
+	font-size: 20px;
+	font-weight: normal;
+	text-align: center;
+}
+
+h4 {
+	color: #ffffff;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	text-align: center;
+}
+
+h4 a { color: #ffffff; text-decoration: none; }
+
+h5 {
+	color: #6ec9cc;
+	font-family: "Myriad Pro", Helvetica, Arial, sans-serif;
+	font-size: 18px;
+	font-weight: normal;
+}
+
+h5 a { color: #6ec9cc; text-decoration: none; }
+
+/* Paragraph styling */
+
+p {
+	color: #525252;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+p.meta { color: #707070; font-size: 10px; text-align: right; }
+
+p#footer-text { text-align: center; }
+
+div#message p { color: #4d4d4d; line-height: 20px; }
+
+/* Link styling */
+
+a { 
+	color: #CD321D; 
+	text-decoration: none; 
+}
+
+p#action-bar a { color: #ffffff; }
+
+p#action-bar a:hover { color: #6eb9cc; }
+

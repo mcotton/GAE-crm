@@ -1,0 +1,97 @@
+
+    {% for event in events %}
+        <div class="posts">
+            <!-- <input type=button value="x" style="float: right;" name="delete_key" id="delete_key" href="{{ event.key.id }}"> -->
+            <!-- <div  class="delete_key"><a href="/delete_event?delete_key={{ event.key }}">delete?</a></div><br>  -->
+            {% ifequal event.reported "False" %}
+                <div class="report_key"><a href="/report/{{ event.key }}">report</a></div>    
+            {% endifequal %}
+        <h3>{{ event.title }}</h3>
+        <h6>The last contact with them was on:  {{ event.date }}</h6>
+        {{ event.content }}
+        </div>
+        <br>
+    {% endfor %}
+        
+        <form id="comment_form" action="/add_event" method="post"> 
+				<h4>Post Something New</h4>
+				        <input type=hidden value="{{ key_name }}" name="key">
+				        <select name="title">
+                            <option>On-Site</option>
+                            <option>Off-Site</option>
+                            <option>Site Walk</option>
+                            <option>Phone Call</option>
+                            <option>E-mail</option>
+                            <option>Other</option>
+                        </select><br />
+                        <input type="text" name="date" class="event_day"><br />
+                      <div id="entry-container"> 
+                        <p><textarea id="user_input" placeholder="Enter Markdown" rows="10" cols="60"></textarea>
+                        
+                        <br /><a href="#" id="show_html">toggle html preview</a>
+                        
+                        </p>
+                      </div> 
+                      <div id="html_preview">
+				      <p><textarea name="content" placeholder="HTML Preview" name="body" rows="10" cols="60" class="wikistyle"></textarea></p>
+				      </div>
+				    <br>
+				      <input type="submit" class="" name="Publish" value="Add Event">
+			</form>
+            
+        </div>
+        <br>
+    
+    <script type="text/javascript">
+    $(document).ready(function() {
+    
+        $(".event_day").each(function() {
+            
+            var n = new Date(),
+                month = n.getMonth()+1,
+                day = n.getDate(),
+                year = n.getFullYear();
+                
+            $(this).val(month + '/' + day + '/' + year);
+        });	
+      
+    	   
+        $(".delete_key a").click(function(event) {
+    		event.preventDefault();
+    		var href = $(this).attr("href");
+    		$.get(href);
+    		$(this).parent().parent().hide();
+    	});
+    	
+    	$(".report_key a").click(function(event) {
+            event.preventDefault();
+            var href = $(this).attr("href");
+            $.get(href, function(data) {
+                //$('#loading').html(data)
+                //alert(data);
+            });
+            $(this).fadeOut('slow');
+        });
+        
+    });	
+  </script>
+  <script type="text/javascript" src="/js/showdown.js"></script>
+            <script type="text/javascript"> 
+              $(function() {
+                var converter = new Showdown.converter();
+                $("#user_input").keyup(function(){
+                  var txt = $("#user_input").val();
+                  var html = converter.makeHtml(txt);
+                  $(".wikistyle").html(html)
+         
+                });
+              });
+              
+              $(document).ready(function() {
+              	$('#html_preview').hide();
+              	$('#show_html').click(function(event) {
+                    event.preventDefault();	
+                    $('#html_preview').toggle();
+              	});
+              });
+            </script> 

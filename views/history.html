@@ -1,0 +1,95 @@
+{% extends "index.html" %}
+
+{% block head %}
+<script language="JavaScript">
+<!--
+function confirm_entry(val)
+{
+    if (confirm("Do you really want to delete this record?"))
+    { 
+        document.getElementById(val).submit();
+    }
+}
+-->
+</script>
+{% endblock %}
+
+{% block header %}
+
+    <div id="header">
+   <form action="/add_event" method="post" name="sort_form">
+        <fieldset>
+        <h4>Add a new Event</h4>
+        <input type=hidden name="key" value="{{ key_name }}">
+        <label for="customer_type">Type</label><br>
+            <select name="title">
+                <option>On-Site</option>
+                <option>Off-Site</option>
+                <option>Site Walk</option>
+                <option>Phone Call</option>
+                <option>E-mail</option>
+                <option>Other</option>
+            </select><br />
+        <label for="date">Date</label><br>    
+            <script>
+                var now = new Date();
+                document.write("<input type=text name=date value=");
+                document.write((now.getMonth()+1) + "/" + now.getDate() + "/" + now.getFullYear());
+                document.write(">");
+            </script>
+        <br>
+        <label for="content">Notes</label><br><TEXTAREA name="content" rows="7"></textarea><br>
+        <input type="submit" value="Add Event" />
+        </fieldset>
+    </form>
+    </div>
+
+    <br>
+    
+    <div id="header">
+   <form action="/add_reminder" method="post" name="sort_form">
+        <fieldset>
+        <h4>Add a new Reminder</h4>
+        <input type=hidden name="key" value="{{ key_name }}">
+       
+        <label for="date">Date</label><br>    
+            <script>
+                var now = new Date();
+                document.write("<input type=text name=date value=");
+                document.write((now.getMonth()+1) + "/" + now.getDate() + "/" + now.getFullYear());
+                document.write(">");
+            </script>
+        <br>
+        <!--
+        <label for="email">E-mail:</label><input type="text" name="email" value="someone@sterlinghometech" /><br>
+        -->
+        <label for="content">Notes</label><br><TEXTAREA name="content" rows="7"></textarea><br>
+        <input type="submit" value="Add Event" />
+        </fieldset>
+    </form>
+    </div> 
+{% endblock%}
+
+
+{% block content %}
+&nbsp;
+    
+    {% for event in events %}
+        <div class="posts">
+        <form action="/delete_event" method=post id="{{ event.key.id }}">
+            <input type=hidden value="{{ event.key }}" name="delete_key">
+            <input type=button value="x" style="float: right;" onclick="confirm_entry('{{ event.key.id }}')">
+        </form>
+        <h3>{{ event.title }}</h3>
+        <h4>The last contact with them was on:  {{ event.date }}</h4><br>
+        {{ event.content }}
+        <br><br><a href="/">back to overview</a>
+        </div>
+        <br>
+    {% endfor %}
+
+{% endblock %}
+
+{% block footer %}
+    <br>
+{% endblock %}

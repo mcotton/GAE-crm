@@ -1,0 +1,70 @@
+{% extends "index.html" %}
+
+{% block head%}
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		//Hide div w/id extra
+	   $("#extra").css("display","none");
+
+		// Add onclick handler to checkbox w/id checkme
+	   $("#checkme").click(function(){
+		
+		// If checked
+		if ($("#checkme").is(":checked"))
+		{
+			//show the hidden div
+			$("#extra").show("fast");
+		}
+		else
+		{	   
+			//otherwise, hide it 
+			$("#extra").hide("fast");
+		}
+	  });
+	
+		});
+	 </script>
+{% endblock %}
+
+{% block content %}
+{% for post in posts %}
+{% ifequal forloop.counter 6 %}
+	<!--
+	<div class="post">
+		<a href="/blog?start_post={{ post.key.id }}">Older posts</a>
+	</div>
+	-->
+{% endifequal %}
+{% ifnotequal forloop.counter 6 %}
+    <div class="post">
+		<h2 class="title">{{ post.title }}</h2>
+		<p class="meta">Posted on: {{ post.date }} with this tag: <a href="/search?q={{ post.tag }}">{{ post.tag }}</a></p>
+		<div class="entry">
+			<p><pre>{{ post.content }}</pre></p>
+		</div>
+	</div>
+{% endifnotequal %}
+{% endfor %}
+{% if author %}
+	<br>
+	<div class="post">
+		<h2 class="title">Add a new post<input type="checkbox" id="checkme"></h2>
+		<div class="entry" id="extra">
+			<p>
+				<form action="/add_post" method="post">
+					Title:<input type="text" name="title" size="60"><br>
+					Tag:<input type="text" name="tag" size="60"><br>
+					<textarea name="content" rows="3" cols="60"></textarea><br>
+					<input type="submit" value="add post">
+				</form>
+			</p>
+		</div>
+	</div>
+	
+{% endif %}
+{% endblock %}
+
+{% block login %}
+| <a href="{{ url }}">{{ url_linktext }}</a>
+{% endblock%}

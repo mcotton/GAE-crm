@@ -1,0 +1,18 @@
+{% extends "print.html" %}
+
+{% block head %}{% endblock %}
+
+{% block content %}
+    {% for entry in entries %}
+        <div class="posts">
+        <h2><a href="/index?o=-2&filter={{ entry.company|urlencode }}">{{ entry.company }}</a></h2>
+        <h4>{{ entry.name }}  &nbsp;&nbsp;&nbsp;<a href="/index?o=-1&filter={{ entry.customer_type|urlencode }}">{{ entry.customer_type }}</a></h4>
+        <div class="right">Reminders<br>{{ entry.next_item_due }} <br> {{ entry.next_item }}</div>
+        <div class="left">Latest Event in History<br>{{ entry.last_contact }} <br> {{ entry.last_item }} <br> 
+        </div>
+        </div>
+        <br>
+    {% endfor %}
+	
+{% endblock %}
+

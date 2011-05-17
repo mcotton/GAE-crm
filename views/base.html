@@ -1,0 +1,88 @@
+{% extends "index.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block sortbox %}{% endblock %}
+
+{% block header %}
+
+<div id="header">
+        <FORM>
+        <SELECT ONCHANGE="location = this.options[this.selectedIndex].value;">
+            <option value="">Sorting options:</option>
+            <OPTION VALUE="/index?o=0&filter={{ filter }}">Show Newest First</option>
+            <OPTION VALUE="/index?o=1&filter={{ filter }}">Show Oldest First</option>
+            <OPTION VALUE="/index?o=2&filter={{ filter }}">Sort by Company Name</option>
+            <OPTION VALUE="/index?o=3&filter={{ filter }}">Sort by Customer Type</option>
+            <OPTION VALUE="/index?o=4&filter={{ filter }}">Starred</option>
+            <option value="/">Show All</option>
+        </SELECT>
+        </FORM>
+        <br>
+Quick links
+<ul>
+    <li>List only <a href="/index?o=-1&filter=Customer">Customers</a>
+    <li>List only <a href="/index?o=-1&filter=Builder">Builders</a>
+    <li>List only <a href="/index?o=-1&filter=Architect">Architect</a>
+    <li>List only <a href="/index?o=-1&filter=Designer">Designer</a>
+    <li>List only <a href="/index?o=-1&filter=Trade%20Associate">Trade Associate</a> 
+    <li>List only <a href="/index?o=-1&filter=Vendor">Vendor</a>
+</ul>
+</div>
+<br>
+<div id="header">
+   <form action="/add_post" method=post>
+        <fieldset>
+        <legend>Add a new contact</legend><br>
+        <label for="name">Name</label><br><input type="text" name="name"><br>
+        <label for="company">Company</label><br><input type="text" name="company"><br>
+        <label for="customer_type">Type</label><br><select name="customer_type"><br>
+                        <option>Customer</option>
+                        <option>Builder</option>
+                        <option>Architect</option>
+                        <option>Designer</option>
+                        <option>Trade Associate</option>
+                        <option>Vendor</option>
+                        <option>Other</option>
+                    </select><br />
+        <label for="office">Office</label><br><input type="text" name="office"><br>
+        <label for="cell">Cell</label><br><input type="text" name="cell"><br>
+        <label for="email">E-Mail</label><br><input type="text" name="email"><br>
+        <label for="address">Address</label><br><input type="text" name="address"><br>
+        <input type="submit" value="Add Contact" />
+        </fieldset>
+    </form>
+</div>
+<br>
+<div id="header">
+<a href="{{ login_url }}">logout</a>
+</div>
+
+{% endblock%}
+
+{% block content %}
+&nbsp; 
+
+    {% for entry in entries %}
+        <div class="posts">
+        <div  class="delete_key"><a href="/delete_contact?delete_key={{ entry.key }}">delete?</a></div>
+        <a href="/update_star?star_key={{ entry.key }}" style="float: left;" class="{{ entry.star }}" title="Star this entry">
+        &nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <h2>{{ entry.name }}</h2>
+        <h5><a href="/index?o=-2&filter={{ entry.company|urlencode }}" title="Filter and show just {{ entry.company }}">{{ entry.company }}</a>  &nbsp;&nbsp;&nbsp;<a href="/index?o=-1&filter={{ entry.customer_type|urlencode }}" title="Filter and show just {{ entry.customer_type }}">
+        {{ entry.customer_type }}</a></h5>
+        <!-- <div class="right">Reminders<br>{{ entry.next_item_due }} <br> {{ entry.next_item }}</div> -->
+        <div class="posts">Latest Event in History<br>{{ entry.last_contact }} <br> {{ entry.last_item }} <br> 
+        <div class='history'><a href="/history?key={{ entry.key }}">see the full history</a></div>
+            </div>
+        </div>
+        <br>
+    {% endfor %}
+	<br>
+	Showing {{ offset }} - {{ entries_len }} of {{ count }} &nbsp;&nbsp;
+	{% if show_text %}
+	<a href="/index?o={{ sortby }}&filter={{ filter }}&offset={{ new_offset }}"> next >></a>
+	{% endif %}
+{% endblock %}
+

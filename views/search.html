@@ -1,0 +1,104 @@
+{% extends "index.html" %}
+
+{% block head %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		//Hide div w/id extra
+	   $("#extra").css("display","none");
+
+		// Add onclick handler to checkbox w/id checkme
+	   $("#checkme").click(function(){
+		
+		// If checked
+		if ($("#checkme").is(":checked"))
+		{
+			//show the hidden div
+			$("#extra").show("fast");
+		}
+		else
+		{	   
+			//otherwise, hide it 
+			$("#extra").hide("fast");
+		}
+	  });
+
+	});
+</script>
+<script type="text/javascript">
+
+	$(document).ready(function(){
+
+    $("input").focus(function () {
+         $("#tags").css('display','inline').fadeTo("slow", 0.66);
+    });
+
+  });
+
+</script>
+
+<style>blockquote {background-color: yellow; display:none; position: relative; }</style>
+
+{% endblock %}
+
+{% block products %}
+    {% for tmp in sidebar %}
+        <li><a href="/search?q={{ tmp.tag }}">{{ tmp.title }}</a></li>
+    {% endfor %}
+{% endblock%}
+
+{% block content %}
+		<blockquote id="tags">
+			"
+			{% for tags in tags_block %}
+			<a href="/search?q={{ tags.tag }}">{{ tags.tag }}</a>	
+			{% endfor %}
+			"
+		</blockquote>
+{% for post in posts %}
+{% ifequal forloop.counter 6 %}
+	<!--
+	<div class="post">
+		<a href="/blog?start_post={{ post.key.id }}">Older posts</a>
+	</div>
+	-->
+{% endifequal %}
+{% ifnotequal forloop.counter 6 %}
+    <div class="post">
+		<h2 class="title">{{ post.title }}</h2>
+		<p class="meta">Posted on: {{ post.date }} with this tag: <a href="/search?q={{ post.tag }}">{{ post.tag }}</a></p>
+		<div class="entry">
+			<p>{{ post.content }}</p>
+		</div>
+	</div>
+{% endifnotequal %}
+{% endfor %}
+{% endblock %}
+
+{% block login %}
+| <a href="{{ url }}">{{ url_linktext }}</a>
+{% endblock%}
+
+{% block footer%}
+{% if author %}
+	<br>
+	<div class="post">
+		<h2 class="title">Add a new post<input type="checkbox" id="checkme"></h2>
+		<div class="entry" id="extra">
+				<form action="/add_post" method="post">
+					Title:<input type="text" name="title" size="60"><br>
+					Tag:<input type="text" name="tag" size="60">
+					<textarea name="content" rows="3" cols="60"></textarea><br>
+					<input type="submit" value="add post">
+				</form>
+			<br>
+				<form action="/add_category" method="post">
+					Title:<input type="text" name="title" size="30"><br>
+					Tag:<input type="text" name="tag" size="20">
+					<input type="submit" value="add category">
+				</form>
+		</div>
+	</div>
+	
+{% endif %}
+{% endblock %}

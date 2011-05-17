@@ -1,0 +1,108 @@
+@import url('reset.css');
+@import url('typography.css');
+
+body {
+	background-color: #E1E1E1;
+	margin: auto;
+	width: 100%;
+}
+
+/* Header */
+
+div#header {
+    background-color: #D0EFFC;
+    margin: auto;
+	padding: 15px;
+    position: relative;
+    border: 1px #bababa;
+}
+
+div#logo {
+	margin: auto;
+	padding-top: 35px;
+	width: 800px;
+}
+
+/* Content */
+div#content {
+	padding-left: 100px;
+	margin: auto;
+	padding-bottom: 50px;
+	position: relative;
+	width: 800px;
+}
+
+
+/* Page Wrapper */
+
+div#page-wrapper {
+	background-color: #D0EFFC;
+	border: 1px solid #FFFBDE;
+	clear: both;
+	margin-top: 30px;
+	overflow: hidden;
+	padding: 15px;
+	width: 768px;
+}
+
+.picture {
+	background-color: #ffffff;
+	border: 1px solid #FFFBDE;
+	clear: both;
+	margin-top: 15px;
+	overflow: hidden;
+	padding: 15px;
+}
+
+label
+{
+width: 4em;
+float: left;
+text-align: right;
+margin-right: 0.7em;
+display: block
+}
+
+.submit input
+{
+margin-left: 4.5em;
+}
+
+input
+{
+color: #781351;
+background: #FFFBDE;
+border: 1px solid #781351
+margin: 10px;
+}
+
+select
+{
+color: #781351;
+background: #FFFBDE;
+border: 1px solid #781351
+margin: 10px;
+}
+
+textarea
+{
+color: #781351;
+background: #FFFBDE;
+border: 1px solid #781351
+margin: 10px;
+}
+
+fieldset
+{
+border: 1px solid #781351;
+width: 20em
+}
+
+legend
+{
+color: #781351;
+background: #FFFBDE;
+border: 1px solid #781351;
+padding: 2px 6px;
+margin: 10px;
+} 
