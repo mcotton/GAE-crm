@@ -1,36 +1,32 @@
 application: mrkcttn
-version: crm-10
+version: crm-11
 runtime: python
 api_version: 1
-
 
 builtins:
 - datastore_admin: on
 
+derived_file_type:
+- python_precompiled
+
 handlers:
-- url: /_ah/mail/.+ 
-  script: main.py
-  
+- url: /images
+  static_dir: templates/_images
+
 - url: /css
-  static_dir: css
+  static_dir: templates/_css
   
 - url: /js
-  static_dir: js
+  static_dir: templates/_js
 
-- url: /images
-  static_dir: images
-
-- url: /img
-  static_dir: img
-  
 - url: /favicon.ico
-  static_files: img/favicon.ico
-  upload: img/favicon.ico
+  static_files: templates/_images/favicon.ico
+  upload: templates/_images/favicon.ico
   
 - url: /robots.txt
-  static_files: img/robots.txt
-  upload: img/robots.txt
+  static_files: templates/_images/robots.txt
+  upload: templates/_images/favicon.ico
 
-- url: .*
+- url: /.*
   script: main.py
 

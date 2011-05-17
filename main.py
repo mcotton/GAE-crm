@@ -185,7 +185,7 @@ class ajaxHistory(webapp.RequestHandler):
     key_name = self.request.get('key')
     mem_key = memcache.get(key_name)
     if mem_key is not None:
-      render_template(self, 'views/_history.html', mem_key)
+      render_template(self, 'templates/_history.html', mem_key)
     else:
       events = Events.gql("WHERE key_of_parent = :1 order by actual_date DESC", key_name) 
     
@@ -195,13 +195,13 @@ class ajaxHistory(webapp.RequestHandler):
          }
       memcache.add(key_name, template_values)
    
-      render_template(self, 'views/_history.html', template_values)
+      render_template(self, 'templates/_history.html', template_values)
 
 
 class login(webapp.RequestHandler):
   @login_required
   def get(self):
-    render_template(self, 'views/login.html', {})
+    render_template(self, 'templates/login.html', {})
     
     
 class reportHandler(webapp.RequestHandler):
@@ -308,10 +308,7 @@ class MainHandler(webapp.RequestHandler):
       'entries_len': len(entries) + offset  #shows how many items we fetched, and their positions
       }
       
-    render_template(self, 'views/base.html', template_values)
-
-
-
+    render_template(self, 'templates/base.html', template_values)
 
 
 def isLocal():
