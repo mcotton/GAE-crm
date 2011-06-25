@@ -12,6 +12,9 @@ derived_file_type:
 handlers:
 - url: /images
   static_dir: templates/_images
+  
+- url: /img
+  static_dir: templates/_images
 
 - url: /css
   static_dir: templates/_css
