@@ -241,75 +241,85 @@ class MainHandler(webapp.RequestHandler):
   @login_required
   def get(self):
 
-    items_per_page = 10                 #how many items to fetch per page
-    sortby = self.request.get("o")
-    filter = self.request.get("filter")
-    raw_offset = self.request.get("offset")
-    if raw_offset:
-      offset = int(raw_offset)
-    else:
-      offset = 0
-    if sortby == '0':
-      count = Contacts.gql("order by modified_date DESC").count()
-      entries = Contacts.gql("order by modified_date DESC").fetch(items_per_page, offset) #show newest on top, default sort option
-    if sortby == '1':
-      count = Contacts.gql("order by modified_date").count()
-      entries = Contacts.gql("order by modified_date").fetch(items_per_page, offset)      #show oldest on top
-    elif sortby == '2':
-      count = Contacts.gql("order by company ASC").count()
-      entries = Contacts.gql("order by company ASC").fetch(items_per_page, offset)        #show by company name
-    elif sortby == '3':
-      count = Contacts.gql("order by customer_type").count()
-      entries = Contacts.gql("order by customer_type").fetch(items_per_page, offset)      #show by customer type
-    elif sortby == '4':
-      count = Contacts.gql("where star = :1", "star_on").count()
-      entries = Contacts.gql("where star = :1", "star_on").fetch(items_per_page, offset)  #only show items that have been starred
-    elif sortby == '-1':                                    #this is how I am using the breaking out of sort types
-      if filter:
-        count = Contacts.gql("where customer_type = :1", filter).count()
-        entries = Contacts.gql("where customer_type = :1", filter).fetch(items_per_page, offset)
+    if users.is_current_user_admin():
+      
+      items_per_page = 10                 #how many items to fetch per page
+      sortby = self.request.get("o")
+      filter = self.request.get("filter")
+      raw_offset = self.request.get("offset")
+      if raw_offset:
+        offset = int(raw_offset)
       else:
-        count = 0
-        entries = None
-    elif sortby == '-2':                                    #this is how I am using the breaking out of sort types
-      if filter:
-        count = Contacts.gql("where company = :1", filter).count()
-        entries = Contacts.gql("where company = :1", filter).fetch(items_per_page, offset)
+        offset = 0
+      if sortby == '0':
+        count = Contacts.gql("order by modified_date DESC").count()
+        entries = Contacts.gql("order by modified_date DESC").fetch(items_per_page, offset) #show newest on top, default sort option
+      if sortby == '1':
+        count = Contacts.gql("order by modified_date").count()
+        entries = Contacts.gql("order by modified_date").fetch(items_per_page, offset)      #show oldest on top
+      elif sortby == '2':
+        count = Contacts.gql("order by company ASC").count()
+        entries = Contacts.gql("order by company ASC").fetch(items_per_page, offset)        #show by company name
+      elif sortby == '3':
+        count = Contacts.gql("order by customer_type").count()
+        entries = Contacts.gql("order by customer_type").fetch(items_per_page, offset)      #show by customer type
+      elif sortby == '4':
+        count = Contacts.gql("where star = :1", "star_on").count()
+        entries = Contacts.gql("where star = :1", "star_on").fetch(items_per_page, offset)  #only show items that have been starred
+      elif sortby == '-1':                                    #this is how I am using the breaking out of sort types
+        if filter:
+          count = Contacts.gql("where customer_type = :1", filter).count()
+          entries = Contacts.gql("where customer_type = :1", filter).fetch(items_per_page, offset)
+        else:
+          count = 0
+          entries = None
+      elif sortby == '-2':                                    #this is how I am using the breaking out of sort types
+        if filter:
+          count = Contacts.gql("where company = :1", filter).count()
+          entries = Contacts.gql("where company = :1", filter).fetch(items_per_page, offset)
+        else:
+          count = 0
+          entries = None
       else:
-        count = 0
-        entries = None
-    else:
-      count = Contacts.gql("order by modified_date DESC").count()
-      entries = Contacts.gql("order by modified_date DESC").fetch(items_per_page, offset) #show newest on top, default sort option
+        count = Contacts.gql("order by modified_date DESC").count()
+        entries = Contacts.gql("order by modified_date DESC").fetch(items_per_page, offset) #show newest on top, default sort option
     
-    if count > (len(entries) + offset):
-      show_text = True
-      new_offset = offset + items_per_page      #this is what the next URL uses for offset
-    else:
-      show_text = False
-      new_offset = 0
+      if count > (len(entries) + offset):
+        show_text = True
+        new_offset = offset + items_per_page      #this is what the next URL uses for offset
+      else:
+        show_text = False
+        new_offset = 0
     
-    user = users.get_current_user()
-    if user:
+      user = users.get_current_user()
+      if user:
         login_url = users.create_logout_url("/")
-    else:
+      else:
         login_url = users.create_login_url("/")
     
-    template_values = {
-      'login_url': login_url,
-      'items_per_page': items_per_page,
-      'count': count,
-      'show_text': show_text,
-      'offset': offset + 1,                      #fix for zero index, make readable
-      'new_offset': new_offset,                  #this is what the next URL uses for offset
-      'sortby': sortby, 
-      'filter': filter,
-      'entries': entries,
-      'entries_len': len(entries) + offset  #shows how many items we fetched, and their positions
-      }
+      template_values = {
+        'login_url': login_url,
+        'items_per_page': items_per_page,
+        'count': count,
+        'show_text': show_text,
+        'offset': offset + 1,                      #fix for zero index, make readable
+        'new_offset': new_offset,                  #this is what the next URL uses for offset
+        'sortby': sortby, 
+        'filter': filter,
+        'entries': entries,
+        'entries_len': len(entries) + offset  #shows how many items we fetched, and their positions
+        }
       
-    render_template(self, 'templates/base.html', template_values)
-
+      render_template(self, 'templates/base.html', template_values)
+    else:
+    
+      user = users.get_current_user()
+      if user:
+        login_url = users.create_logout_url("/")
+      else:
+        login_url = users.create_login_url("/")
+        
+      render_template(self, 'templates/404.html', {'login_url': login_url})
 
 def isLocal():
     return os.environ["SERVER_NAME"] in ("localhost")    
