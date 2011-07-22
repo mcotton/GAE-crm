@@ -203,39 +203,8 @@ class login(webapp.RequestHandler):
   def get(self):
     render_template(self, 'templates/login.html', {})
     
-    
-class reportHandler(webapp.RequestHandler):
-  @login_required
-  def get(self, resource):
-    
-    #t = Events().get('agdtcmtjdHRucgwLEgZFdmVudHMYBAw')
-    t = Events().get(str(resource))
-    c = Contacts.get(str(t.key_of_parent))
-
-    out = c.name + '\n' + t.title + '\n' + t.content + '\n'
-
-    message = mail.EmailMessage(sender="Mark Cotton <mcotton@mrkcttn.appspotmail.com>", subject="Work Orders")
-    message.to = "Mark Cotton <mcotton@sterlinghometech.com>"
-    message.cc = "Mark Cotton <mcotton@sterlinghometech.com>"
-    message.reply_to = "Mark Cotton <mcotton@sterlinghometech.com>"
-    message.body = out
-
-    if isLocal():
-      self.response.out.write('running in development mode')
-    else:
-      # Don't e-mail poor Rachel
-      #message.send()
-      pass
-      
-    t.reported = 'True'
-    t.put()
-    
-    mem_key = memcache.get(resource)
-    if mem_key is not None:
-      # delete stale data out of memcache
-      memcache.delete(mem_key)
-    
- 
+     
+#  Need to clean this up.  Make it use pretty URLs and memcache
 
 class MainHandler(webapp.RequestHandler):
   @login_required
@@ -340,7 +309,6 @@ def main():
                                         ('/delete_event', delete_event),
                                         ('/delete_contact',delete_contact),
                                         ('/login', login),
-                                        ('/report/([^/]+)?', reportHandler),
                                         ('/update_star', update_star),
                                         ('/add_post', add_post)],
                                          debug = isLocal())
