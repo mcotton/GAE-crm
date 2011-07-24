@@ -68,6 +68,7 @@
 	border: 1px solid #666;
 	width: 45%;
 	padding: 10px;
+	background-color:rgba(200, 200, 200, 0.5);
 }
 
 #header {
@@ -115,6 +116,14 @@ p {
 	overflow: hidden;
 	padding: 10px 0;
 	text-align: center;
+}
+
+.map {
+    float: right;
+	border: 1px solid #666;
+	width: 45%;
+	background-color:rgba(200, 200, 200, 0.5);
+	min-height: 250px;
 }
 
 .container_12 {

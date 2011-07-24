@@ -14,6 +14,8 @@ class Contacts(db.Model):
   email = db.StringProperty()
   address = db.StringProperty()
   star = db.StringProperty(default="star_off")
+  latitude = db.StringProperty(default="29.611986")
+  longitude = db.StringProperty(default="-98.4883264")
   
 class Events(db.Model):
   key_of_parent = db.StringProperty()

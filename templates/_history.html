@@ -3,15 +3,19 @@
         <div class="posts">
             <!-- <input type=button value="x" style="float: right;" name="delete_key" id="delete_key" href="{{ event.key.id }}"> -->
             <!-- <div  class="delete_key"><a href="/delete_event?delete_key={{ event.key }}">delete?</a></div><br>  -->
+            <!--
             {% ifequal event.reported "False" %}
                 <div class="report_key"><a href="/report/{{ event.key }}">report</a></div>    
             {% endifequal %}
+            -->
         <h3>{{ event.title }}</h3>
         <h6>The last contact with them was on:  {{ event.date }}</h6>
         {{ event.content }}
         </div>
         <br>
     {% endfor %}
+        
+        <div id="map_canvas" class="map"></div>
         
         <form id="comment_form" action="/add_event" method="post"> 
 				<h4>Post Something New</h4>
@@ -27,9 +31,8 @@
                         <input type="text" name="date" class="event_day"><br />
                       <div id="entry-container"> 
                         <p><textarea id="user_input" placeholder="Enter Markdown" rows="10" cols="60"></textarea>
-                        
-                        <br /><a href="#" id="show_html">toggle html preview</a>
-                        
+                        <br />
+                        <!-- <a href="#" id="show_html">toggle html preview</a> -->
                         </p>
                       </div> 
                       <div id="html_preview">
@@ -38,10 +41,16 @@
 				    <br>
 				      <input type="submit" class="" name="Publish" value="Add Event">
 			</form>
-            
+			<form class="right">
+                <input type="hidden" value="{{ key_name }}">
+                <input type="text" name="latitude" value="{{ contact.latitude }}">
+                <input type="text" name="longitude" value="{{ contact.longitude }}">
+                <input type="button" value="Check-in">
+            </form>
         </div>
         <br>
-    
+        
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
     <script type="text/javascript">
     $(document).ready(function() {
     
@@ -73,25 +82,74 @@
             $(this).fadeOut('slow');
         });
         
+        // Geolocation stuff
+        var initialLocation;
+        var map;
+        var infowindow = new google.maps.InfoWindow();
+        
+        var myOptions = {
+            zoom: 16,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        
+        map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+            
+        //if(map) alert('found map');
+        
+        // check if the browser supports getlocation
+        if(navigator.geolocation)  {        
+            navigator.geolocation.getCurrentPosition(function(position) {
+            initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+            markerLocation = new google.maps.LatLng(parseFloat({{ contact.latitude }}), parseFloat({{ contact.longitude }}));
+            contentString = "Location found using W3C standard";
+            map.setCenter(initialLocation);
+            infowindow.setContent(contentString);
+            infowindow.setPosition(initialLocation);
+            infowindow.open(map);
+            
+            var marker = new google.maps.Marker({
+                position: markerLocation,
+                title:"{{ contact.name }}"
+            });
+  
+            // To add the marker to the map, call setMap();
+            marker.setMap(map);
+            
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+        
+            //alert(latitude);
+            //alert(longitude);
+        
+            //document.getElementById('lat').innerHTML = latitude;
+            //document.getElementById('long').innerHTML = longitude;
+            
+            });
+        
+        } else {
+            // geolocation is not supported
+        }
+        
     });	
   </script>
   <script type="text/javascript" src="/js/showdown.js"></script>
-            <script type="text/javascript"> 
-              $(function() {
-                var converter = new Showdown.converter();
-                $("#user_input").keyup(function(){
-                  var txt = $("#user_input").val();
-                  var html = converter.makeHtml(txt);
-                  $(".wikistyle").val(html)
-         
-                });
-              });
-              
-              $(document).ready(function() {
-              	$('#html_preview').hide();
-              	$('#show_html').click(function(event) {
-                    event.preventDefault();	
-                    $('#html_preview').toggle();
-              	});
-              });
-            </script> 
+    <script type="text/javascript"> 
+      $(function() {
+        var converter = new Showdown.converter();
+        $("#user_input").keyup(function(){
+          var txt = $("#user_input").val();
+          var html = converter.makeHtml(txt);
+          $(".wikistyle").val(html)
+    
+        });
+      });
+      
+      $(document).ready(function() {
+      	$('#html_preview').hide();
+      	$('#show_html').click(function(event) {
+            event.preventDefault();	
+            $('#html_preview').toggle();
+      	});
+      });
+    </script>
+    

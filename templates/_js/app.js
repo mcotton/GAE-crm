@@ -38,5 +38,6 @@ $(document).ready(function() {
     });
 	
 	
-	function confirm_entry(val) {};
+	function confirm_entry(val) {};    
+	
 });

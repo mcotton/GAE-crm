@@ -188,10 +188,12 @@ class ajaxHistory(webapp.RequestHandler):
       render_template(self, 'templates/_history.html', mem_key)
     else:
       events = Events.gql("WHERE key_of_parent = :1 order by actual_date DESC", key_name) 
-    
+      contact = Contacts.get(key_name)
+      
       template_values = {
          'events': events,
-         'key_name': key_name
+         'key_name': key_name,
+         'contact': contact
          }
       memcache.add(key_name, template_values)
    

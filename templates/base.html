@@ -18,7 +18,7 @@
         <h2>{{ entry.name }}</h2>
         <h5><a href="/index?o=-2&filter={{ entry.company|urlencode }}" title="Filter and show just {{ entry.company }}">{{ entry.company }}</a>  &nbsp;&nbsp;&nbsp;<a href="/index?o=-1&filter={{ entry.customer_type|urlencode }}" title="Filter and show just {{ entry.customer_type }}">
         {{ entry.customer_type }}</a></h5>
-        <!-- <div class="right">Reminders<br>{{ entry.next_item_due }} <br> {{ entry.next_item }}</div> -->
+        <!-- <div class="right" id="map_canvas">Location</div> -->
         <div class="posts">Latest Event in History<br>{{ entry.last_contact }} <br> {{ entry.last_item }} <br> 
         <div class='history'><a href="/history?key={{ entry.key }}">see the full history</a></div>
             </div>
